@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ride Revival Detailing - Mobile Pricing</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f1419 0%, #1a2332 100%);
+            color: #e0e6ed;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(0, 102, 204, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(0, 150, 255, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .container { max-width: 500px; margin: 0 auto; position: relative; z-index: 1; }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: slideDown 0.8s ease-out;
+        }
+        .logo { font-size: 28px; font-weight: 900; letter-spacing: 3px; color: #fff; text-transform: uppercase; margin-bottom: 8px; }
+        .tagline { font-size: 12px; letter-spacing: 2px; color: #7a8ba8; text-transform: uppercase; }
+        .divider {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #0066cc, transparent);
+            margin: 20px auto;
+        }
+        .packages { display: flex; flex-direction: column; gap: 24px; margin-bottom: 40px; }
+        .package {
+            border: 2px solid #2a3a52;
+            border-radius: 12px;
+            padding: 24px;
+            background: linear-gradient(135deg, rgba(26, 35, 50, 0.6) 0%, rgba(42, 58, 82, 0.4) 100%);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            animation: fadeIn 0.8s ease-out backwards;
+        }
+        .package:nth-child(1) { animation-delay: 0.1s; }
+        .package:nth-child(2) { animation-delay: 0.2s; }
+        .package:nth-child(3) { animation-delay: 0.3s; }
+        .package:hover {
+            border-color: #0066cc;
+            background: linear-gradient(135deg, rgba(26, 35, 50, 0.8) 0%, rgba(42, 58, 82, 0.6) 100%);
+            box-shadow: 0 0 20px rgba(0, 102, 204, 0.2);
+        }
+        .package-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+            border-bottom: 1px solid #3a4a62;
+            padding-bottom: 12px;
+        }
+        .package-tier { font-size: 10px; color: #7a8ba8; text-transform: uppercase; letter-spacing: 1px; }
+        .package-name { font-size: 18px; font-weight: 700; color: #fff; margin-top: 4px; }
+        .package-price { text-align: right; }
+        .price-label { font-size: 10px; color: #7a8ba8; text-transform: uppercase; letter-spacing: 1px; }
+        .price-amount { font-size: 24px; font-weight: 900; color: #0088ff; }
+        .package-desc { font-size: 13px; color: #a0b0c8; margin-bottom: 16px; font-style: italic; }
+        .features {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .feature {
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+            color: #8a9ab8;
+        }
+        .feature::before {
+            content: '✓';
+            color: #0088ff;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 14px;
+        }
+        .package-time {
+            font-size: 12px;
+            color: #6a7a98;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding-top: 12px;
+            border-top: 1px solid #3a4a62;
+        }
+        .package-time::before { content: '⏱'; }
+        .addons-section {
+            background: linear-gradient(135deg, rgba(26, 35, 50, 0.6) 0%, rgba(42, 58, 82, 0.4) 100%);
+            border: 2px solid #2a3a52;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 30px;
+        }
+        .addons-title {
+            font-size: 12px;
+            color: #7a8ba8;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 18px;
+        }
+        .addons-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .addon {
+            border: 1px solid #3a4a62;
+            border-radius: 8px;
+            padding: 14px;
+            text-align: center;
+            background: rgba(26, 35, 50, 0.5);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .addon:hover {
+            border-color: #0066cc;
+            background: rgba(0, 102, 204, 0.1);
+        }
+        .addon-name { font-size: 12px; color: #e0e6ed; font-weight: 600; margin-bottom: 6px; }
+        .addon-price { font-size: 14px; color: #0088ff; font-weight: 700; }
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            color: #6a7a98;
+            border-top: 1px solid #2a3a52;
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+        .footer-bold { color: #8a9ab8; font-weight: 600; }
+        .cta-section {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(0, 102, 204, 0.1) 0%, rgba(0, 150, 255, 0.05) 100%);
+            border: 1px solid #0066cc;
+            border-radius: 10px;
+        }
+        .cta-text { font-size: 13px; color: #a0b0c8; margin-bottom: 12px; }
+        .cta-button {
+            display: inline-block;
+            padding: 10px 24px;
+            background: linear-gradient(135deg, #0066cc 0%, #0088ff 100%);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+        .cta-button:hover {
+            box-shadow: 0 8px 24px rgba(0, 102, 204, 0.4);
+            transform: translateY(-2px);
+        }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">Ride Revival</div>
+            <div class="tagline">Mobile Detailing • Professional Services</div>
+            <div class="divider"></div>
+        </div>
+
+        <div class="packages">
+            <div class="package">
+                <div class="package-header">
+                    <div>
+                        <div class="package-tier">Tier 01</div>
+                        <div class="package-name">The Refresh</div>
+                    </div>
+                    <div class="package-price">
+                        <div class="price-label">From</div>
+                        <div class="price-amount">$80</div>
+                    </div>
+                </div>
+                <div class="package-desc">Quick clean, instant impact</div>
+                <div class="features">
+                    <div class="feature">Exterior hand wash & rinse</div>
+                    <div class="feature">Wheel & tire scrub</div>
+                    <div class="feature">Full interior vacuum</div>
+                    <div class="feature">Dashboard & console wipe down</div>
+                    <div class="feature">Interior & exterior windows</div>
+                    <div class="feature">Door jambs & air fresheners</div>
+                </div>
+                <div class="package-time">1 - 1.5 hrs</div>
+            </div>
+
+            <div class="package">
+                <div class="package-header">
+                    <div>
+                        <div class="package-tier">Tier 02</div>
+                        <div class="package-name">Signature Detail</div>
+                    </div>
+                    <div class="package-price">
+                        <div class="price-label">From</div>
+                        <div class="price-amount">$175</div>
+                    </div>
+                </div>
+                <div class="package-desc">The full treatment</div>
+                <div class="features">
+                    <div class="feature">Everything in The Refresh</div>
+                    <div class="feature">Hand wax or spray sealant</div>
+                    <div class="feature">Tire dressing & trim restore</div>
+                    <div class="feature">Steam clean — vents, console & cup holders</div>
+                    <div class="feature">Leather conditioning & treatment</div>
+                    <div class="feature">Carpet spot treatment</div>
+                    <div class="feature">Interior dressing — dash, doors & vinyl</div>
+                </div>
+                <div class="package-time">2.5 - 3.5 hrs • Most Popular</div>
+            </div>
+
+            <div class="package">
+                <div class="package-header">
+                    <div>
+                        <div class="package-tier">Tier 03</div>
+                        <div class="package-name">Revival Elite</div>
+                    </div>
+                    <div class="package-price">
+                        <div class="price-label">From</div>
+                        <div class="price-amount">$299</div>
+                    </div>
+                </div>
+                <div class="package-desc">Showroom-ready finish</div>
+                <div class="features">
+                    <div class="feature">Everything in Signature Detail</div>
+                    <div class="feature">Paint correction & clay bar</div>
+                    <div class="feature">Full steam extraction</div>
+                    <div class="feature">Ceramic spray coating</div>
+                    <div class="feature">Engine bay clean & detail</div>
+                    <div class="feature">Headlight restoration</div>
+                    <div class="feature">Air purification & odor elimination</div>
+                </div>
+                <div class="package-time">4 - 5 hrs</div>
+            </div>
+        </div>
+
+        <div class="addons-section">
+            <div class="addons-title">Add-Ons</div>
+            <div class="addons-grid">
+                <div class="addon">
+                    <div class="addon-name">Pet Hair Removal</div>
+                    <div class="addon-price">+$30</div>
+                </div>
+                <div class="addon">
+                    <div class="addon-name">Interior Dressing</div>
+                    <div class="addon-price">+$20</div>
+                </div>
+                <div class="addon">
+                    <div class="addon-name">Plastic & Trim Restore</div>
+                    <div class="addon-price">+$35</div>
+                </div>
+                <div class="addon">
+                    <div class="addon-name">Engine Bay Detail</div>
+                    <div class="addon-price">+$50</div>
+                </div>
+                <div class="addon">
+                    <div class="addon-name">Headlight Restore</div>
+                    <div class="addon-price">+$40</div>
+                </div>
+                <div class="addon">
+                    <div class="addon-name">Carpet Deep Clean</div>
+                    <div class="addon-price">+$45</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <div class="cta-text">Ready to revive your ride?</div>
+            <a href="https://www.instagram.com/riderevivaldetailing" class="cta-button">Book Now via Instagram</a>
+        </div>
+
+        <div class="footer">
+            <span class="footer-bold">SUV/Truck Upcharge:</span> +$15-25 depending on package <br>
+            <span class="footer-bold">Service Radius:</span> 10 miles from downtown <br>
+            Travel fees apply outside service area
+        </div>
+    </div>
+</body>
+</html>
